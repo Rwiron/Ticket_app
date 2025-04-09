@@ -12,5 +12,4 @@
 📮 OTP verification that issues a Sanctum token
 
 
-🛑 Single-session protection (previous tokens deleted)
-
+🛑 Single-session protection (previous tokens deleted).
