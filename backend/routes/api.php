@@ -28,3 +28,16 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 });
+
+
+
+
+// Only it_admin can access
+Route::middleware(['auth:sanctum', 'role:it_admin'])->group(function () {
+
+});
+
+// Only employees can access
+Route::middleware(['auth:sanctum', 'role:employee'])->group(function () {
+  
+});

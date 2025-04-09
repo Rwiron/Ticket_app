@@ -50,7 +50,22 @@ class OtpController extends Controller
         // Generate new Sanctum token
         $token = $user->createToken('api_token')->plainTextToken;
 
+        // return response()->json([
+        //     'user' => [
+        //         'id'    => $user->id,
+        //         'name'  => $user->name,
+        //         'email' => $user->email,
+        //         'role'  => $user->role,
+        //     ],
+        //     'token' => $token,
+        // ]);
+
+
         return response()->json([
+            'message' => $user->role === 'it_admin'
+                ? 'Welcome IT Admin!'
+                : 'Welcome Employee!',
+
             'user' => [
                 'id'    => $user->id,
                 'name'  => $user->name,
