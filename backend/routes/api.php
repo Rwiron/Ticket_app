@@ -14,7 +14,11 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::post('/login', [LoginController::class, 'login']);
 
+// Otp verfiy and resent m
 Route::post('/verify-otp', [OtpController::class, 'verify']);
+Route::post('/resend-otp', [OtpController::class, 'resend']);
+
+
 
 // Protected routes that require authentication
 Route::middleware('auth:sanctum')->group(function () {
