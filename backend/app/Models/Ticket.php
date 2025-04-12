@@ -35,4 +35,9 @@ class Ticket extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function logs()
+    {
+        return $this->hasMany(TicketLog::class);
+    }
 }
