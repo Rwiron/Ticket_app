@@ -114,7 +114,7 @@ class TicketController extends Controller
             ]);
         }
 
-        // Perform the actual update
+
         $ticket->update($request->only('status', 'priority', 'assigned_to'));
 
         return response()->json([
@@ -124,7 +124,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Delete a ticket (IT Admin only).
+     * gusiba itike admin wenyine (IT Admin only).
      */
     public function destroy($id)
     {

@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+    box-shadow: 0 10px 30px rgba(0, 120, 212, 0.2);
+  }
+  50% {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 120, 212, 0.3);
+  }
+  100% {
+    transform: translateY(0px);
+    box-shadow: 0 10px 30px rgba(0, 120, 212, 0.2);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.8s ease forwards;
+}
+
+.animate-steps .step {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.animate-steps .step:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-steps .step:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.animate-steps .step:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.animate-steps .step:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+.animate-steps .progress-line {
+  animation: progressLine 1.5s ease-in-out forwards;
+  animation-delay: 0.8s;
+}
+
+.animate-float {
+  animation: float 6s infinite ease-in-out;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-mesh {
+  background-color: #f9fafb;
+  background-image: radial-gradient(at 0% 0%, rgba(0, 178, 239, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(12, 167, 79, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(232, 199, 69, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 178, 239, 0.05) 0px, transparent 50%);
+}

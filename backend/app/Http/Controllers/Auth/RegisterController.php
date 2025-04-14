@@ -29,6 +29,8 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             Log::info('User registration failed: Validation errors', ['email' => $request->email, 'errors' => $validator->errors()]);
             return response()->json([
+                'status' => 'error',
+                'message' => 'Registration failed',
                 'errors' => $validator->errors(),
             ], 422);
         }
@@ -48,6 +50,8 @@ class RegisterController extends Controller
         Log::info('User registered successfully', ['id' => $user->id, 'email' => $user->email]);
 
         return response()->json([
+            'status' => 'success',
+            'message' => 'User registered successfully',
             'user' => [
                 'id'    => $user->id,
                 'name'  => $user->name,

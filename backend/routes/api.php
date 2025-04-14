@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
@@ -19,6 +20,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/verify-otp', [OtpController::class, 'verify']);
     Route::post('/resend-otp', [OtpController::class, 'resend']);
+    Route::get('/check-email', [AuthController::class, 'checkEmail']);
 });
 
 
