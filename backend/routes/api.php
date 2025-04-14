@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // 🔐 Authenticated users (any role)
     Route::post('/tickets/{id}/comments', [CommentController::class, 'store']);
     Route::get('/tickets/{id}/comments', [CommentController::class, 'index']);
+    Route::get('/ticket-stats', [TicketController::class, 'getTicketStats']); // Get ticket statistics
 
 
     /*

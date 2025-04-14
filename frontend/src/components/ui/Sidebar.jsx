@@ -1,5 +1,7 @@
 // components/dashui/Sidebar.jsx
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import Button from "../../components/Button";
 import {
   FaHome,
   FaTicketAlt,
@@ -7,31 +9,64 @@ import {
   FaCog,
   FaQuestionCircle,
   FaTimes,
+  FaServer,
+  FaUsers,
+  FaChartBar,
+  FaClipboardList,
+  FaComment,
+  FaStar,
 } from "react-icons/fa";
 
-const navLinks = [
+import { logo } from "../../assets/index";
+
+// Admin navigation links
+const adminNavLinks = [
   { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
   { name: "Tickets", path: "/dashboard/tickets", icon: <FaTicketAlt /> },
-  { name: "Profile", path: "/dashboard/profile", icon: <FaUser /> },
+  { name: "Users", path: "/dashboard/users", icon: <FaUsers /> },
+  { name: "System", path: "/dashboard/system", icon: <FaServer /> },
+  { name: "Reports", path: "/dashboard/reports", icon: <FaChartBar /> },
   { name: "Settings", path: "/dashboard/settings", icon: <FaCog /> },
-  { name: "Help", path: "/dashboard/help", icon: <FaQuestionCircle /> },
+];
+
+// Employee navigation links - Only showing Dashboard
+const employeeNavLinks = [
+  { name: "Dashboard", path: "/dashboard", icon: <FaHome /> },
+  { name: "Messages", path: "/dashboard/messages", icon: <FaComment /> },
+  { name: "Profile", path: "/dashboard/profile", icon: <FaUser /> },
+  // Comment: Other links removed as requested
 ];
 
 const Sidebar = ({ closeSidebar }) => {
+  const { user } = useAuth();
+
+  const navLinks = user?.role === "it_admin" ? adminNavLinks : employeeNavLinks;
+
   return (
     <aside className="w-64 bg-[#0f172a] text-white flex flex-col shadow-md h-[calc(100vh)]">
-      <div className="flex items-center justify-between py-6 px-6 border-b border-white/10">
-        <div className="text-xl font-bold flex items-center">
-          <span className="text-[#00b2ef] mr-2">MMI</span>
-          <span>Tickets</span>
+      <div className="border-b border-white/10">
+        {/* Logo section */}
+        <div className="relative flex flex-col items-center py-6 px-6">
+          {/* Close button only shown on mobile */}
+          <button
+            onClick={closeSidebar}
+            className="text-white p-1 hover:text-[#00b2ef] lg:hidden absolute right-4 top-4"
+          >
+            <FaTimes size={18} />
+          </button>
+
+          <div className="mb-4">
+            <img src={logo} alt="MMI Logo" className="h-14" />
+          </div>
+
+          <span
+            className={`text-xs px-3 py-1 rounded-full text-white ${
+              user?.role === "it_admin" ? "bg-[#e8c745]/20" : "bg-[#00b2ef]/20"
+            }`}
+          >
+            Military Medical Insurance
+          </span>
         </div>
-        {/* Close button only shown on mobile */}
-        <button
-          onClick={closeSidebar}
-          className="text-white p-1 hover:text-[#00b2ef] lg:hidden"
-        >
-          <FaTimes size={18} />
-        </button>
       </div>
 
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
@@ -56,10 +91,12 @@ const Sidebar = ({ closeSidebar }) => {
 
       <div className="p-4 border-t border-white/10">
         <div className="bg-white/5 rounded-lg p-3 text-center">
-          <p className="text-xs text-white/60">Need assistance?</p>
-          <button className="mt-2 text-sm text-[#e8c745] hover:underline">
-            Contact Support
-          </button>
+          <p className="text-xs text-white/60 mb-2">Need assistance?</p>
+          <Button
+            title="Contact Support"
+            buttonBg="bg-transparent text-[#e8c745] hover:bg-[#e8c745]/20 py-2 w-full"
+            onClick={() => {}}
+          />
         </div>
       </div>
     </aside>

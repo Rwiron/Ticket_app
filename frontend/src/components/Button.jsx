@@ -7,11 +7,17 @@ const Button = ({
   buttonBg = "",
   onClick,
 }) => {
+  const handleClick = (e) => {
+    if (typeof onClick === "function") {
+      onClick(e);
+    }
+  };
+
   return (
     <button
       type={type}
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       className={`
         px-6
         py-3

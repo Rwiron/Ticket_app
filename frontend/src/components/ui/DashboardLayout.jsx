@@ -1,11 +1,15 @@
-// src/components/dashui/DashboardLayout.jsx
+// src/components/ui/DashboardLayout.jsx
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../../context/AuthContext";
+import AdminDashboard from "../../pages/dashboard/AdminDashboard";
+import EmployeeDashboard from "../../pages/dashboard/EmployeeDashboard";
 
 const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -61,8 +65,13 @@ const DashboardLayout = ({ children }) => {
           </button>
         </div>
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>
+        {/* Page Content with role-based rendering */}
+        <main className="flex-1 p-4 md:p-6 overflow-y-auto">
+          {/* Render based on role */}
+          {user?.role === "it_admin" && <AdminDashboard />}
+          {user?.role === "employee" && <EmployeeDashboard />}
+          {!user?.role && children}
+        </main>
       </div>
     </div>
   );

@@ -138,4 +138,39 @@ class TicketController extends Controller
 
         return response()->json(['message' => 'Ticket deleted successfully']);
     }
+
+    /**
+     * Get ticket statistics for the authenticated user
+     */
+    public function getTicketStats(Request $request)
+    {
+        $userId = $request->user()->id;
+        $role = $request->user()->role;
+
+        // Base query
+        $query = Ticket::query();
+
+        // If employee, only show their tickets
+        if ($role === 'employee') {
+            $query->where('user_id', $userId);
+        }
+
+        // Get total count
+        $totalCount = $query->count();
+
+        // Get counts by status
+        $openCount = (clone $query)->where('status', 'open')->count();
+        $inProgressCount = (clone $query)->where('status', 'in_progress')->count();
+        $resolvedCount = (clone $query)->where('status', 'resolved')->count();
+
+        return response()->json([
+            'status' => 'success',
+            'stats' => [
+                'total' => $totalCount,
+                'open' => $openCount,
+                'in_progress' => $inProgressCount,
+                'resolved' => $resolvedCount,
+            ]
+        ]);
+    }
 }

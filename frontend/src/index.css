@@ -3,9 +3,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -56,7 +58,7 @@
 }
 
 .animate-fadeIn {
-  animation: fadeIn 1s ease forwards;
+  animation: fadeIn 0.2s ease-out forwards;
 }
 
 .animate-scaleIn {
@@ -100,4 +102,31 @@
     radial-gradient(at 100% 0%, rgba(12, 167, 79, 0.05) 0px, transparent 50%),
     radial-gradient(at 0% 100%, rgba(232, 199, 69, 0.05) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(0, 178, 239, 0.05) 0px, transparent 50%);
+}
+
+/* Custom modal styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.modal-content {
+  position: relative;
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+  left: 0 !important;
+  right: 0 !important;
+  background-color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
