@@ -4,6 +4,8 @@ import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
+import { forgotPassword } from "../../services/auth/authService";
+import { showSuccess, showError } from "../../utils/toast";
 
 const ResetPassword = () => {
   const [form, setForm] = useState({
@@ -21,16 +23,36 @@ const ResetPassword = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.email) {
+      showError("Please enter your email address");
+      return;
+    }
+
+    if (!validateEmail(form.email)) {
+      showError("Please enter a valid email address");
+      return;
+    }
+
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Reset password for:", form.email);
+    try {
+      await forgotPassword(form.email);
       setIsLoading(false);
       setIsSubmitted(true);
-    }, 1000);
+      showSuccess("Password reset link has been sent to your email");
+    } catch (error) {
+      setIsLoading(false);
+      showError(
+        error.message || "Failed to send reset link. Please try again."
+      );
+    }
   };
 
   return (
@@ -51,6 +73,7 @@ const ResetPassword = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="e.g. john@example.com"
+                disabled={isLoading}
               />
 
               <Button

@@ -26,7 +26,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            border-top: 4px solid #8b5cf6;
+            border-top: 4px solid #00b2ef;
         }
 
         .card-inner {
@@ -73,7 +73,7 @@
         .logo-fallback {
             font-size: 28px;
             font-weight: 700;
-            color: #8b5cf6;
+            color: #00b2ef;
             text-align: center;
             margin-bottom: 8px;
         }
@@ -86,7 +86,7 @@
         .title {
             font-size: 24px;
             font-weight: 700;
-            color: #1f2937;
+            color: #00b2ef;
             margin-bottom: 20px;
             letter-spacing: 0.5px;
         }
@@ -109,7 +109,7 @@
             letter-spacing: 0.15em;
             font-size: 36px;
             font-weight: 700;
-            color: #1f2937;
+            color: #0ca74f;
         }
 
         .disclaimer {
@@ -119,6 +119,7 @@
 
         .disclaimer-bold {
             font-weight: 500;
+            color: #0ca74f;
         }
 
         .divider {
@@ -144,12 +145,12 @@
         }
 
         .social-icon {
-            color: #9ca3af;
+            color: #00b2ef;
             transition: color 0.2s ease;
         }
 
         .social-icon:hover {
-            color: #4b5563;
+            color: #e8c745;
         }
 
         .copyright {

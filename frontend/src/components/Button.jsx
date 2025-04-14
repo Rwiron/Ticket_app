@@ -20,6 +20,7 @@ const Button = ({
         text-sm
         transition-all
         duration-300
+        cursor-pointer
         ease-in-out
         hover:scale-[1.03]
         focus:outline-none

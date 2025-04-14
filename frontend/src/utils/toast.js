@@ -8,3 +8,11 @@ export const showSuccess = (message) => {
 export const showError = (message) => {
   toast.error(message);
 };
+
+export const showWarning = (message) => {
+  toast.warning(message);
+};
+
+export const showInfo = (message) => {
+  toast.info(message);
+};

@@ -21,6 +21,8 @@ Route::prefix('auth')->group(function () {
     Route::post('/verify-otp', [OtpController::class, 'verify']);
     Route::post('/resend-otp', [OtpController::class, 'resend']);
     Route::get('/check-email', [AuthController::class, 'checkEmail']);
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 });
 
 

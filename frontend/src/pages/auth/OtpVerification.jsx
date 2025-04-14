@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
+import { resendOtp, verifyOtp } from "../../services/auth/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const OtpVerification = () => {
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
@@ -10,8 +13,11 @@ const OtpVerification = () => {
   const navigate = useNavigate();
   const inputRefs = useRef([]);
 
+  const location = useLocation();
+  const email = location.state?.email || "";
+  const { saveSession } = useAuth();
+
   useEffect(() => {
-    // Focus the first input box on component mount
     if (inputRefs.current[0]) {
       inputRefs.current[0].focus();
     }
@@ -22,10 +28,9 @@ const OtpVerification = () => {
     if (!/^\d*$/.test(value)) return;
 
     const newOtpValues = [...otpValues];
-    newOtpValues[index] = value.slice(0, 1); // Take only the first digit
+    newOtpValues[index] = value.slice(0, 1);
     setOtpValues(newOtpValues);
 
-    // Auto-focus next input if current field is filled
     if (value && index < 5) {
       inputRefs.current[index + 1].focus();
     }
@@ -35,7 +40,6 @@ const OtpVerification = () => {
     // Handle backspace
     if (e.key === "Backspace") {
       if (!otpValues[index] && index > 0) {
-        // If current field is empty and backspace is pressed, focus previous field
         inputRefs.current[index - 1].focus();
       }
     }
@@ -48,9 +52,11 @@ const OtpVerification = () => {
     const pastedData = e.clipboardData.getData("text/plain").trim();
 
     // Check if pasted content contains only digits
-    if (!/^\d+$/.test(pastedData)) return;
+    if (!/^\d+$/.test(pastedData)) {
+      toast.error("Please paste only numbers");
+      return;
+    }
 
-    // Fill the OTP boxes with pasted digits
     const newOtpValues = [...otpValues];
     for (let i = 0; i < Math.min(pastedData.length, 6); i++) {
       newOtpValues[i] = pastedData[i];
@@ -58,24 +64,45 @@ const OtpVerification = () => {
 
     setOtpValues(newOtpValues);
 
-    // Focus the appropriate input
     if (pastedData.length < 6 && inputRefs.current[pastedData.length]) {
       inputRefs.current[pastedData.length].focus();
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    if (otpValues.some((v) => v === "")) {
+      toast.error("Please enter all 6 digits of the OTP");
+      return;
+    }
 
     const otp = otpValues.join("");
+    setIsLoading(true);
 
-    // Simulate OTP verification
-    setTimeout(() => {
-      console.log("Verifying OTP:", otp);
+    try {
+      const res = await verifyOtp({ email, otp });
+      toast.success("OTP verified successfully!");
+
+      saveSession(res.token, res.user);
+      navigate("/dashboard");
+    } catch (err) {
+      toast.error(err.message || "Invalid OTP. Please try again.");
+    } finally {
       setIsLoading(false);
-      navigate("/dashboard"); // After successful verification
-    }, 1000);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      setIsLoading(true);
+      await resendOtp(email); // 🧠 use the email from location.state
+      toast.success("OTP has been resent to your email.");
+    } catch (err) {
+      toast.error(err.message || "Failed to resend OTP.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -117,7 +144,9 @@ const OtpVerification = () => {
             Didn't get the code?{" "}
             <button
               type="button"
-              className="text-[#00b2ef] hover:underline font-medium transition-colors"
+              onClick={handleResendOtp}
+              disabled={isLoading}
+              className="text-[#00b2ef] hover:underline font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               Resend OTP
             </button>
