@@ -4,8 +4,9 @@ import {
   FaTasks,
   FaInfoCircle,
   FaLightbulb,
-  FaChevronRight,
+  FaCheck,
   FaClipboardCheck,
+  FaPlus,
 } from "react-icons/fa";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
@@ -21,6 +22,7 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
     title: "",
     description: "",
     priority: "medium",
+    category: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -32,6 +34,7 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
         title: "",
         description: "",
         priority: "medium",
+        category: "",
       });
       setError("");
       setSuccess(false);
@@ -82,9 +85,30 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
   };
 
   const priorityOptions = [
-    { value: "low", label: "Low", color: "bg-blue-100 text-blue-800" },
-    { value: "medium", label: "Medium", color: "bg-amber-100 text-amber-800" },
-    { value: "high", label: "High", color: "bg-red-100 text-red-800" },
+    {
+      value: "low",
+      label: "Low",
+      bgClass: "bg-blue-100",
+      textClass: "text-blue-800",
+      borderClass: "border-blue-300",
+      ringClass: "ring-blue-500",
+    },
+    {
+      value: "medium",
+      label: "Medium",
+      bgClass: "bg-amber-100",
+      textClass: "text-amber-800",
+      borderClass: "border-amber-300",
+      ringClass: "ring-amber-500",
+    },
+    {
+      value: "high",
+      label: "High",
+      bgClass: "bg-red-100",
+      textClass: "text-red-800",
+      borderClass: "border-red-300",
+      ringClass: "ring-red-500",
+    },
   ];
 
   return (
@@ -111,7 +135,7 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main form area */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
                 <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-100 flex items-start mb-5">
                   <FaInfoCircle className="text-red-500 mt-0.5 mr-2 flex-shrink-0" />
@@ -119,43 +143,134 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
                 </div>
               )}
 
-              <div className="space-y-6">
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-medium mb-5 text-gray-800 border-b pb-3 flex items-center">
-                    <FaTicketAlt className="mr-2 text-blue-500" />
-                    Ticket Details
-                  </h3>
+              <div className="animate-fadeIn animation-delay-100">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={ticketData.title}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all"
+                  placeholder="Enter ticket title"
+                  required
+                />
+              </div>
 
-                  <div className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Title
-                      </label>
-                      <input
-                        type="text"
-                        name="title"
-                        value={ticketData.title}
-                        onChange={handleChange}
-                        placeholder="Brief description of the issue"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 placeholder:text-gray-400 bg-gray-50"
-                      />
-                    </div>
+              <div className="animate-fadeIn animation-delay-200">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={ticketData.description}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all resize-none"
+                  placeholder="Describe the issue in detail"
+                  required
+                ></textarea>
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Description
-                      </label>
-                      <textarea
-                        name="description"
-                        value={ticketData.description}
-                        onChange={handleChange}
-                        rows="8"
-                        placeholder="Provide detailed information about your issue"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 placeholder:text-gray-400 resize-none bg-gray-50"
-                      />
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-fadeIn animation-delay-300">
+                <div>
+                  <label
+                    htmlFor="category"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Category
+                  </label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={ticketData.category}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all"
+                    required
+                  >
+                    <option value="">Select a category</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="improvement">Improvement</option>
+                    <option value="task">Task</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Priority
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {priorityOptions.map((option) => (
+                      <div
+                        key={option.value}
+                        onClick={() =>
+                          setTicketData((prev) => ({
+                            ...prev,
+                            priority: option.value,
+                          }))
+                        }
+                        className={`
+                          cursor-pointer rounded-lg p-3 transition-all
+                          ${
+                            ticketData.priority === option.value
+                              ? `${option.bgClass} border ${option.borderClass} ring-2 ${option.ringClass} shadow-sm`
+                              : "bg-white border border-gray-200 hover:bg-gray-50"
+                          }
+                          flex items-center justify-center
+                        `}
+                      >
+                        <div className="text-center">
+                          <div
+                            className={`w-4 h-4 rounded-full ${
+                              ticketData.priority === option.value
+                                ? option.bgClass
+                                : "bg-gray-200"
+                            } mx-auto mb-1`}
+                          ></div>
+                          <span
+                            className={`text-xs font-medium capitalize ${
+                              ticketData.priority === option.value
+                                ? option.textClass
+                                : "text-gray-700"
+                            }`}
+                          >
+                            {option.label}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-8 animate-fadeIn animation-delay-500">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg transition-all shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white"></div>
+                      <span>Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaClipboardCheck size={14} />
+                      <span>Create Ticket</span>
+                    </>
+                  )}
+                </button>
               </div>
             </form>
           </div>
@@ -179,7 +294,7 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
                         key={option.value}
                         className={`flex items-center justify-center p-3 rounded-lg cursor-pointer border-2 transition-all ${
                           ticketData.priority === option.value
-                            ? `${option.color} border-current`
+                            ? `${option.bgClass} ${option.textClass} border-current`
                             : "border-gray-100 bg-gray-50 text-gray-500 hover:bg-gray-100"
                         }`}
                       >
@@ -217,27 +332,27 @@ const CreateTicketModal = ({ open, handleClose, onSuccess }) => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-100 shadow-sm">
-              <h4 className="text-sm font-medium text-blue-800 mb-3 flex items-center">
-                <FaLightbulb className="mr-2 text-blue-500" />
-                Tips for Fast Resolution
-              </h4>
-              <ul className="text-xs text-blue-700 space-y-2">
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-5 border border-gray-200 mt-5 animate-fadeIn animation-delay-600">
+              <h3 className="font-medium text-gray-700 mb-3 flex items-center">
+                <FaLightbulb className="text-amber-500 mr-2" />
+                Tips for a Great Ticket
+              </h3>
+              <ul className="text-sm text-gray-600 space-y-2">
                 <li className="flex items-start">
-                  <FaChevronRight className="text-blue-400 mt-0.5 mr-1 flex-shrink-0" />
-                  <span>Be clear and specific about your issue</span>
+                  <FaCheck className="text-green-500 mt-1 mr-2 flex-shrink-0" />
+                  <span>
+                    Be specific and provide clear steps to reproduce issues
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <FaChevronRight className="text-blue-400 mt-0.5 mr-1 flex-shrink-0" />
-                  <span>Include steps to reproduce if applicable</span>
+                  <FaCheck className="text-green-500 mt-1 mr-2 flex-shrink-0" />
+                  <span>
+                    Include screenshots or error messages if available
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <FaChevronRight className="text-blue-400 mt-0.5 mr-1 flex-shrink-0" />
-                  <span>Mention any error messages you received</span>
-                </li>
-                <li className="flex items-start">
-                  <FaChevronRight className="text-blue-400 mt-0.5 mr-1 flex-shrink-0" />
-                  <span>Set priority based on your needs</span>
+                  <FaCheck className="text-green-500 mt-1 mr-2 flex-shrink-0" />
+                  <span>Set appropriate priority based on impact</span>
                 </li>
               </ul>
             </div>

@@ -213,44 +213,49 @@ const TicketDetailModal = ({ ticketId, open, onClose }) => {
                   Comments ({comments.length})
                 </h3>
 
-                {loadingComments ? (
-                  <div className="flex justify-center py-6">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-                  </div>
-                ) : comments.length > 0 ? (
-                  <div className="space-y-4">
-                    {comments.map((comment) => (
-                      <div
-                        key={comment.id}
-                        className="bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-blue-100 transition-colors"
-                      >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-9 h-9 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-500 shadow-sm">
-                            <FaUser size={15} />
-                          </div>
-                          <div>
-                            <div className="font-medium text-sm">
-                              {comment.user?.name || "Unknown User"}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              {formatDate(comment.created_at)}
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-700 whitespace-pre-line pl-12 border-l-2 border-gray-200 py-1">
-                          {comment.message}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-gray-500 text-sm text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-200 flex flex-col items-center">
-                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-                      <FaUser className="text-gray-400" size={18} />
+                {/* Comment Section Container */}
+                <div className="rounded-lg border border-gray-200 overflow-hidden">
+                  {loadingComments ? (
+                    <div className="flex justify-center items-center py-10 bg-white">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
                     </div>
-                    <p>No comments yet. Be the first to comment!</p>
-                  </div>
-                )}
+                  ) : comments.length > 0 ? (
+                    <div className="max-h-[320px] overflow-y-auto custom-scrollbar bg-white p-4">
+                      <div className="space-y-4">
+                        {comments.map((comment) => (
+                          <div
+                            key={comment.id}
+                            className="bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-blue-100 transition-colors"
+                          >
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-9 h-9 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-500 shadow-sm">
+                                <FaUser size={15} />
+                              </div>
+                              <div>
+                                <div className="font-medium text-sm">
+                                  {comment.user?.name || "Unknown User"}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  {formatDate(comment.created_at)}
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-700 whitespace-pre-line pl-12 border-l-2 border-gray-200 py-1">
+                              {comment.message}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-gray-500 text-sm text-center py-10 bg-white flex flex-col items-center">
+                      <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                        <FaUser className="text-gray-400" size={20} />
+                      </div>
+                      <p>No comments yet. Be the first to comment!</p>
+                    </div>
+                  )}
+                </div>
 
                 {/* Add Comment Form */}
                 <div className="mt-5 pt-4 border-t border-gray-100">
