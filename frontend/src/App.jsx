@@ -9,6 +9,7 @@ import Login from "./pages/auth/Login";
 import NotFound from "./pages/errors/NotFound";
 import OtpVerification from "./pages/auth/OtpVerification";
 import Dashboard from "./pages/dashboard/Dashboard";
+import Contact from "./pages/dashboard/Contact";
 import ResetingPass from "./pages/auth/ResetingPass";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ResetPasswordGuard from "./guards/ResetPasswordGuard";
@@ -36,6 +37,7 @@ const App = () => {
       {/* Protected Dashboard */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/contact" element={<Contact />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

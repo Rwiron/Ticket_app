@@ -6,45 +6,26 @@ import {
   FaTicketAlt,
   FaCheckCircle,
   FaClock,
-  FaComment,
   FaStar,
   FaSync,
 } from "react-icons/fa";
 import Button from "../../components/Button";
 import TicketStatusBar from "../../components/ui/TicketStatusBar";
+import DidYouKnow from "../../components/ui/DidYouKnow";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeDashboard = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(Date.now());
 
-  // Automatically refresh every 10 seconds
-  /* useEffect(() => {
-    const interval = setInterval(() => {
-      setRefreshTrigger(Date.now());
-    }, 10000); // 10000ms = 10 seconds
-
-    return () => clearInterval(interval); // Clear on unmount
-  }, []); */
-
-  // Manual refresh option
+  // Manual refresh option for dashboard data
   const handleManualRefresh = () => {
     setRefreshTrigger(Date.now());
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
-      {/* <div className="mb-6 flex justify-end">
-        <Button
-          title={
-            <div className="flex items-center">
-              <FaSync className="mr-2" />
-              <span>Refresh Data</span>
-            </div>
-          }
-          onClick={() => setRefreshTrigger(Date.now())}
-          buttonBg="bg-white text-blue-600 border border-blue-200 hover:bg-blue-50"
-        />
-      </div> */}
-
       <SectionHeader
         title="My Tickets Dashboard"
         subtitle="Track and manage your support requests"
@@ -130,81 +111,10 @@ const EmployeeDashboard = () => {
 
         {/* Right Column */}
         <div className="space-y-6 sm:space-y-8">
-          {/* Status Updates */}
-          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Recent Updates
-            </h3>
-            <div className="space-y-4">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 pb-4 border-b border-gray-100"
-                >
-                  <div className="w-8 h-8 rounded-full bg-[#00b2ef]/10 flex items-center justify-center text-[#00b2ef]">
-                    <FaComment size={12} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">
-                      New response on Ticket #{item + 1000}
-                    </p>
-                    <p className="text-xs text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <button className="w-full mt-4 text-center text-sm text-[#00b2ef] hover:underline">
-              View All Updates
-            </button>
-          </div>
-          {/* Ticket Status */}
-          {/* <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Ticket Status
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600">Open</span>
-                  <span className="text-sm font-medium">3</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-[#00b2ef] h-2 rounded-full"
-                    style={{ width: "38%" }}
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600">In Progress</span>
-                  <span className="text-sm font-medium">0</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-[#e8c745] h-2 rounded-full"
-                    style={{ width: "0%" }}
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600">Resolved</span>
-                  <span className="text-sm font-medium">5</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-[#0ca74f] h-2 rounded-full"
-                    style={{ width: "62%" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <TicketStatusBar refreshTrigger={refreshTrigger} />
-          {/* Help & Support */}
+
+          <DidYouKnow />
+
           <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Need Help?
@@ -212,7 +122,10 @@ const EmployeeDashboard = () => {
             <p className="text-sm text-gray-600 mb-4">
               Contact our support team for assistance with your tickets.
             </p>
-            <button className="w-full py-2 bg-[#00b2ef] text-white rounded-lg hover:bg-[#00b2ef]/90 transition-colors text-sm font-medium">
+            <button
+              onClick={() => navigate("/dashboard/contact")}
+              className="w-full py-2 bg-[#00b2ef] text-white rounded-lg hover:bg-[#00b2ef]/90 transition-colors text-sm font-medium"
+            >
               Contact Support
             </button>
           </div>
