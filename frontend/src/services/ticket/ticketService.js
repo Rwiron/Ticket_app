@@ -34,19 +34,19 @@ export const getMyTickets = async (token) => {
 
 
 
-export const getTicketById = async (ticketId, token) => {
-  try {
-    const res = await axios.get(`${API_URL}/tickets/${ticketId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data.ticket;
-  } catch (err) {
-    throw new Error(err.response?.data?.message || "Failed to fetch ticket details");
-  }
-};
+// export const getTicketById = async (ticketId, token) => {
+//   try {
+//     const res = await axios.get(`${API_URL}/tickets/${ticketId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     return res.data.ticket;
+//   } catch (err) {
+//     throw new Error(err.response?.data?.message || "Failed to fetch ticket details");
+//   }
+// };
 
 
 
@@ -63,4 +63,39 @@ export const getTicketStats = async (token) => {
   } catch (err) {
     throw new Error(err.response?.data?.message || "Failed to fetch ticket stats");
   }
+};
+
+export const getTicketById = async (ticketId, token) => {
+  const res = await axios.get(`${API_URL}/tickets/${ticketId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.ticket;
+};
+
+
+
+export const getComments = async (ticketId, token) => {
+  const res = await axios.get(`${API_URL}/tickets/${ticketId}/comments`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.comments;
+};
+
+
+
+export const postComment = async (ticketId, message, token) => {
+  const res = await axios.post(
+    `${API_URL}/tickets/${ticketId}/comments`,
+    { message },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data.comment;
 };

@@ -16,6 +16,7 @@ import { getMyTickets } from "../../services/ticket/ticketService";
 import { useAuth } from "../../context/AuthContext";
 import { showError, showSuccess } from "../../utils/toast";
 import Button from "../../components/Button";
+import TicketDetailModal from "./TicketDetailModal";
 
 // Initialize export variables
 let jsPDF = null;
@@ -52,6 +53,8 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const searchInputRef = useRef(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
   // Check if export libraries are loaded
   useEffect(() => {
@@ -326,6 +329,17 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
     return Array.from(priorities);
   };
 
+  // Handle row click to open modal
+  const handleRowClick = (ticketId) => {
+    setSelectedTicketId(ticketId);
+    setModalOpen(true);
+  };
+
+  // Close modal function
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-12">
@@ -458,7 +472,8 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
             {currentTickets.map((ticket) => (
               <div
                 key={ticket.id}
-                className="bg-white border rounded-xl p-4 shadow-sm transition-all hover:shadow-md"
+                className="bg-white border rounded-xl p-4 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                onClick={() => handleRowClick(ticket.id)}
               >
                 <div className="flex justify-between items-start mb-3">
                   <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
@@ -547,9 +562,10 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
                   {currentTickets.map((ticket, index) => (
                     <tr
                       key={ticket.id}
-                      className={`hover:bg-gray-50 transition-colors ${
+                      className={`hover:bg-gray-50 transition-colors cursor-pointer ${
                         index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
                       }`}
+                      onClick={() => handleRowClick(ticket.id)}
                     >
                       <td className="p-4 border-b border-gray-100 text-sm">
                         <span className="font-mono bg-gray-100 px-2 py-1 rounded text-gray-600">
@@ -677,6 +693,13 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
           </div>
         </>
       )}
+
+      {/* Ticket Detail Modal */}
+      <TicketDetailModal
+        ticketId={selectedTicketId}
+        open={modalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

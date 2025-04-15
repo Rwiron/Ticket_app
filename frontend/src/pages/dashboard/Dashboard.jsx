@@ -4,7 +4,7 @@ import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
 import TicketTable from "../../components/ui/TicketTable";
 import Button from "../../components/Button";
-import ModalStyle from "../../components/ui/ModalStyle";
+import CreateTicketModal from "../../components/ui/CreateTicketModal";
 import {
   FaTicketAlt,
   FaCheckCircle,
@@ -112,11 +112,10 @@ const Dashboard = () => {
         </div>
       </DashboardLayout>
 
-      {/* Using ModalStyle for ticket creation form */}
-      <ModalStyle
+      {/* Using CreateTicketModal for ticket creation form */}
+      <CreateTicketModal
         open={isModalOpen}
         handleClose={closeModal}
-        title="Create Ticket"
         onSuccess={handleTicketCreated}
       />
     </>

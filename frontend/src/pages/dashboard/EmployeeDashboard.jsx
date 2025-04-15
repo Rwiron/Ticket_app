@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
 import TicketTable from "../../components/ui/TicketTable";
@@ -12,17 +12,23 @@ import {
 } from "react-icons/fa";
 import Button from "../../components/Button";
 import TicketStatusBar from "../../components/ui/TicketStatusBar";
+
 const EmployeeDashboard = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(Date.now());
 
   // Automatically refresh every 10 seconds
-  useEffect(() => {
+  /* useEffect(() => {
     const interval = setInterval(() => {
       setRefreshTrigger(Date.now());
     }, 10000); // 10000ms = 10 seconds
 
     return () => clearInterval(interval); // Clear on unmount
-  }, []);
+  }, []); */
+
+  // Manual refresh option
+  const handleManualRefresh = () => {
+    setRefreshTrigger(Date.now());
+  };
 
   return (
     <>
@@ -43,6 +49,13 @@ const EmployeeDashboard = () => {
         title="My Tickets Dashboard"
         subtitle="Track and manage your support requests"
         actionButton="Create Ticket"
+        refreshButton={
+          <div className="flex items-center">
+            <FaSync className="mr-2" />
+            <span>Refresh Data</span>
+          </div>
+        }
+        onRefreshClick={handleManualRefresh}
       />
 
       {/* Stats Cards - Responsive grid */}

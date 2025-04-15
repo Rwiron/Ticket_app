@@ -1,9 +1,16 @@
 // components/dashui/SectionHeader.jsx
 import React, { useState } from "react";
 import Button from "../../components/Button";
-import ModalStyle from "./ModalStyle";
+import CreateTicketModal from "./CreateTicketModal";
 
-const SectionHeader = ({ title, subtitle, actionButton, onActionClick }) => {
+const SectionHeader = ({
+  title,
+  subtitle,
+  actionButton,
+  onActionClick,
+  refreshButton,
+  onRefreshClick,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
@@ -33,21 +40,34 @@ const SectionHeader = ({ title, subtitle, actionButton, onActionClick }) => {
             <p className="text-sm text-gray-500 max-w-2xl">{subtitle}</p>
           )}
         </div>
-        {actionButton && (
-          <Button
-            title={actionButton}
-            buttonBg="bg-[#00b2ef] text-white hover:bg-[#00b2ef]/90"
-            onClick={handleClick}
-          />
-        )}
+        <div className="flex space-x-3">
+          {refreshButton && (
+            <Button
+              title={refreshButton}
+              buttonBg="bg-white text-blue-600 border border-blue-200 hover:bg-blue-50"
+              onClick={onRefreshClick}
+            />
+          )}
+          {actionButton && (
+            <Button
+              title={actionButton}
+              buttonBg="bg-[#00b2ef] text-white hover:bg-[#00b2ef]/90"
+              onClick={handleClick}
+            />
+          )}
+        </div>
       </div>
 
       {/* Only render modal if no external click handler is provided */}
       {!onActionClick && (
-        <ModalStyle
+        <CreateTicketModal
           open={isModalOpen}
           handleClose={closeModal}
-          title={actionButton || "Action"}
+          onSuccess={() => {
+            if (typeof onRefreshClick === "function") {
+              onRefreshClick();
+            }
+          }}
         />
       )}
     </>

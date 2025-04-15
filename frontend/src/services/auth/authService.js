@@ -1,16 +1,15 @@
-// src/services/auth/authService.js
+
 import axios from "axios";
 
-// Set your base URL from the .env file
 const API_URL = import.meta.env.VITE_API_BASE_URL + "/auth";
 
 // REGISTER user
 export const registerUser = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
-    return response.data; // return success response
+    return response.data; 
   } catch (error) {
-    // If Laravel returns validation error
+   
     if (error.response) {
       throw new Error(error.response.data.message || "Registration failed");
     } else {
