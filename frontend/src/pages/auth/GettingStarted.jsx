@@ -89,9 +89,9 @@ const GettingStarted = () => {
                     : "bg-white/20 backdrop-blur-sm"
                 }`}
               >
-                <img 
-                  src={logo} 
-                  alt="MMI Logo" 
+                <img
+                  src={logo}
+                  alt="MMI Logo"
                   className="w-6 h-6 object-contain"
                 />
               </div>
@@ -105,7 +105,7 @@ const GettingStarted = () => {
             </div>
 
             <nav className="hidden md:flex space-x-8">
-              {["Features", "How It Works", "Support", "About"].map((item) => (
+              {["Features", "How It Works"].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
@@ -147,7 +147,7 @@ const GettingStarted = () => {
               </button>
 
               <button
-                onClick={() => handleNavigation("/signup")}
+                onClick={() => handleNavigation("/login")}
                 className={`${
                   isScrolled
                     ? "bg-[#00b2ef] hover:bg-[#00a2df] text-white"
@@ -262,17 +262,17 @@ const GettingStarted = () => {
               {/* Trust indicators */}
               <div className="pt-8 sm:pt-10">
                 <p className="text-white/60 text-sm mb-4">
-                  Trusted by leading military organizations
+                  Trusted by leading Security organizations
                 </p>
                 <div className="flex flex-wrap items-center gap-6 sm:gap-8">
-                  {[1, 2, 3, 4].map((i) => (
+                  {["RDF", "NISS", "RIB", "RCS", "RNP"].map((org) => (
                     <div
-                      key={i}
+                      key={org}
                       className="h-8 bg-white/10 backdrop-blur-sm rounded-md px-3 flex items-center"
                     >
                       <div className="w-2 h-2 rounded-full bg-white/50 mr-2"></div>
                       <span className="text-white/80 text-sm font-medium">
-                        Partner {i}
+                        {org}
                       </span>
                     </div>
                   ))}
@@ -1252,9 +1252,9 @@ const GettingStarted = () => {
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/5">
-                  <img 
-                    src={logo} 
-                    alt="MMI Logo" 
+                  <img
+                    src={logo}
+                    alt="MMI Logo"
                     className="w-8 h-8 object-contain"
                   />
                 </div>
