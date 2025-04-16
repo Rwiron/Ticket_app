@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import InputField from "../../components/InputField";
@@ -57,6 +58,7 @@ const ResetPassword = () => {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <AuthCard title="Reset Your Password">
         {!isSubmitted ? (
           <>

@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import InputField from "../../components/InputField";
@@ -144,6 +145,7 @@ const Register = () => {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <AuthCard title="Create Your Account">
         <p className="text-gray-500 text-center mb-8">
           Join us today and start using our platform

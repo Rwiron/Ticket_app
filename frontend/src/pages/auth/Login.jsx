@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import InputField from "../../components/InputField";
@@ -69,6 +70,7 @@ const Login = () => {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <AuthCard title="Welcome Back">
         <p className="text-gray-500 text-center mb-8">
           Enter your credentials to access your account
@@ -163,7 +165,16 @@ const Login = () => {
           </div>
 
           <Button
-            title={isLoading ? "Logging in..." : "Login"}
+            title={
+              isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                "Login"
+              )
+            }
             type="submit"
             disabled={isLoading}
             buttonBg="bg-[#00b2ef] w-full text-white font-semibold hover:bg-[#0098d4]"

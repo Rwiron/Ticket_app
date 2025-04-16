@@ -36,7 +36,7 @@ if (typeof window !== "undefined") {
     });
 }
 
-const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
+const TicketTable = ({ tickets: propTickets, refreshTrigger, onRowClick }) => {
   const { token } = useAuth();
   const [tickets, setTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
@@ -331,8 +331,14 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger }) => {
 
   // Handle row click to open modal
   const handleRowClick = (ticketId) => {
-    setSelectedTicketId(ticketId);
-    setModalOpen(true);
+    if (onRowClick) {
+      // Use the provided click handler if available
+      onRowClick(ticketId);
+    } else {
+      // Fall back to default behavior
+      setSelectedTicketId(ticketId);
+      setModalOpen(true);
+    }
   };
 
   // Close modal function

@@ -1,5 +1,4 @@
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast from 'react-hot-toast';
 
 export const showSuccess = (message) => {
   toast.success(message);
@@ -10,9 +9,17 @@ export const showError = (message) => {
 };
 
 export const showWarning = (message) => {
-  toast.warning(message);
+  toast(message, {
+    icon: '⚠️',
+  });
 };
 
+
+
 export const showInfo = (message) => {
-  toast.info(message);
+  toast(message, {
+    icon: 'ℹ️',
+  });
 };
+
+

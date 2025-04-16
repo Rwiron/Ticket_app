@@ -1,0 +1,148 @@
+/* Modern animations for ticket app */
+
+/* Perspective transformations */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.rotateY-3 {
+  transform: rotateY(3deg);
+}
+
+.rotateY-neg3 {
+  transform: rotateY(-3deg);
+}
+
+/* Specialized animation keyframes */
+@keyframes lift {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes bounce-light {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes beam {
+  0% {
+    opacity: 0.6;
+    transform: translateX(-100%) scaleY(2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scaleY(2);
+  }
+}
+
+/* Glassmorphism effects */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glassmorphism-dark {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.animate-lift {
+  animation: lift 5s ease-in-out infinite;
+}
+
+.animate-bounce-light {
+  animation: bounce-light 3s ease-in-out infinite;
+}
+
+.animate-beam {
+  animation: beam 2s linear infinite;
+}
+
+/* Shine effects */
+.shine-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  100% {
+    left: 150%;
+  }
+}
+
+/* Subtle animations for UI elements */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Gradient transition effect */
+.gradient-border {
+  position: relative;
+  border-radius: 0.5rem;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(to right, #00b2ef, #0ca74f, #e8c745) border-box;
+  border: 2px solid transparent;
+}
+
+/* Wave animation for loading states */
+.wave-effect span {
+  display: inline-block;
+  animation: wave 1.5s infinite ease-in-out;
+}
+
+.wave-effect span:nth-child(1) { animation-delay: 0s; }
+.wave-effect span:nth-child(2) { animation-delay: 0.1s; }
+.wave-effect span:nth-child(3) { animation-delay: 0.2s; }
+.wave-effect span:nth-child(4) { animation-delay: 0.3s; }
+.wave-effect span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 40%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+} 

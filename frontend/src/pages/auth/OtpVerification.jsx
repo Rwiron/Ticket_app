@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import Button from "../../components/Button";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { resendOtp, verifyOtp } from "../../services/auth/authService";
 import { useAuth } from "../../context/AuthContext";
 
@@ -107,6 +108,7 @@ const OtpVerification = () => {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <AuthCard title="OTP Verification">
         <p className="text-gray-500 text-center mb-8">
           We've sent a verification code to your email. Please enter it below.

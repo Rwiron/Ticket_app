@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import AuthLayout from "../../components/AuthLayout";
 import AuthCard from "../../components/AuthCard";
 import InputField from "../../components/InputField";
@@ -63,6 +64,7 @@ const ResetingPass = () => {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <AuthCard title="Reset Your Password">
         <p className="text-gray-500 text-center mb-6">
           Enter your new password to reset your account.

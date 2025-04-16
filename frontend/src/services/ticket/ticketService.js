@@ -99,3 +99,75 @@ export const postComment = async (ticketId, message, token) => {
   );
   return res.data.comment;
 };
+
+
+
+export const getAdminTicketStats = async (token) => {
+  try {
+    const res = await axios.get(`${API_URL}/admin/ticket-stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    
+    // Return the stats property directly from the response, not the entire data object
+    if (res.data && res.data.stats) {
+      return res.data.stats;
+    } else {
+      throw new Error("Invalid response format");
+    }
+  } catch (err) {
+    console.error("Admin stats error:", err);
+    if (err.response?.status === 403) {
+      throw new Error("Unauthorized. You do not have permission to access admin resources.");
+    }
+    throw new Error(err.response?.data?.message || "Failed to fetch admin stats");
+  }
+};
+
+
+export const getAllTickets = async (token) => {
+  try {
+    const res = await axios.get(`${API_URL}/ticketing`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.tickets;
+  } catch (err) {
+    console.error("Error fetching tickets:", err);
+    throw new Error(err.response?.data?.message || "Failed to fetch tickets");
+  }
+};
+
+export const updateTicket = async (ticketId, updateData, token) => {
+  try {
+    const res = await axios.put(`${API_URL}/ticketing/${ticketId}`, updateData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.ticket;
+  } catch (err) {
+    console.error("Error updating ticket:", err);
+    throw new Error(err.response?.data?.message || "Failed to update ticket");
+  }
+};
+
+export const deleteTicket = async (ticketId, token) => {
+  try {
+    const res = await axios.delete(`${API_URL}/ticketing/${ticketId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error("Error deleting ticket:", err);
+    throw new Error(err.response?.data?.message || "Failed to delete ticket");
+  }
+};
