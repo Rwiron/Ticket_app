@@ -5,7 +5,6 @@ import Button from "../../components/Button";
 import { logo, logo2 } from "../../assets";
 
 const GettingStarted = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const heroRef = useRef(null);
   const stepsRef = useRef(null);
@@ -15,8 +14,6 @@ const GettingStarted = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsVisible(true);
-
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 50);
@@ -37,12 +34,6 @@ const GettingStarted = () => {
             if (entry.target === issuesRef.current) {
               issuesRef.current.classList.add("animate-fade-in");
             }
-            if (entry.target === testimonialsRef.current) {
-              testimonialsRef.current.classList.add("animate-fade-in");
-            }
-            if (entry.target === ctaRef.current) {
-              ctaRef.current.classList.add("animate-fade-in");
-            }
           }
         });
       },
@@ -52,16 +43,12 @@ const GettingStarted = () => {
     if (heroRef.current) observer.observe(heroRef.current);
     if (stepsRef.current) observer.observe(stepsRef.current);
     if (issuesRef.current) observer.observe(issuesRef.current);
-    if (testimonialsRef.current) observer.observe(testimonialsRef.current);
-    if (ctaRef.current) observer.observe(ctaRef.current);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (heroRef.current) observer.unobserve(heroRef.current);
       if (stepsRef.current) observer.unobserve(stepsRef.current);
       if (issuesRef.current) observer.unobserve(issuesRef.current);
-      if (testimonialsRef.current) observer.unobserve(testimonialsRef.current);
-      if (ctaRef.current) observer.unobserve(ctaRef.current);
     };
   }, []);
 
@@ -1064,7 +1051,7 @@ const GettingStarted = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Testimonial 1 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover-card-lift border border-gray-100 relative overflow-hidden">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#00b2ef]/5 rounded-full blur-xl transform translate-x-1/3 -translate-y-1/3"></div>
 
               <div className="flex items-center mb-6">
@@ -1072,7 +1059,7 @@ const GettingStarted = () => {
                   <span className="text-[#00b2ef] font-bold text-lg">JD</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900">John Doe</h4>
+                  <h4 className="font-bold text-gray-900">Peter Kazadi</h4>
                   <p className="text-gray-600 text-sm">
                     IT Director, Base Hospital
                   </p>
@@ -1110,7 +1097,7 @@ const GettingStarted = () => {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover-card-lift border border-gray-100 relative overflow-hidden">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 relative overflow-hidden">
               <div className="absolute bottom-0 left-0 w-20 h-20 bg-[#0ca74f]/5 rounded-full blur-xl transform -translate-x-1/3 translate-y-1/3"></div>
 
               <div className="flex items-center mb-6">
@@ -1156,7 +1143,7 @@ const GettingStarted = () => {
             </div>
 
             {/* Testimonial 3 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl hover-card-lift border border-gray-100 relative overflow-hidden">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-20 h-20 bg-[#e8c745]/5 rounded-full blur-xl transform translate-x-1/3 -translate-y-1/3"></div>
 
               <div className="flex items-center mb-6">
@@ -1205,7 +1192,7 @@ const GettingStarted = () => {
           {/* CTA Banner */}
           <div
             ref={ctaRef}
-            className="mt-16 bg-gradient-to-r from-[#00b2ef] to-[#0ca74f] rounded-2xl p-8 sm:p-10 relative overflow-hidden"
+            className="mt-16 bg-gradient-to-r from-[#00b2ef] to-[#0ca74f] rounded-2xl p-8 sm:p-10 relative overflow-hidden opacity-100"
           >
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNNjAgMEgwdjYwaDYwVjB6TTMwIDYwQzEzLjQzIDYwIDAgNDYuNTcgMCAzMFMxMy40MyAwIDMwIDBzMzAgMTMuNDMgMzAgMzAtMTMuNDMgMzAtMzAgMzB6IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9Im5vbnplcm8iIG9wYWNpdHk9Ii4xMCIvPjwvZz48L3N2Zz4=')] opacity-20"></div>
 
@@ -1227,7 +1214,7 @@ const GettingStarted = () => {
                   Schedule a Demo
                 </button>
                 <button
-                  onClick={() => handleNavigation("/signup")}
+                  onClick={() => handleNavigation("/register")}
                   className="btn-modern px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-lg font-medium hover:bg-white/20 transition-colors"
                 >
                   Start Free Trial
