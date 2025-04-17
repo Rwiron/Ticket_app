@@ -19,6 +19,12 @@ export const createTicket = async (ticketData, token) => {
 
 export const getMyTickets = async (token) => {
   try {
+    // If no token is provided, return an empty array
+    if (!token) {
+      console.error("No authentication token provided");
+      throw new Error("Authentication required");
+    }
+    
     const res = await axios.get(`${API_URL}/my-tickets`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -27,6 +33,9 @@ export const getMyTickets = async (token) => {
     });
     return res.data.tickets || [];
   } catch (err) {
+    if (err.response?.status === 401) {
+      throw new Error("Authentication required");
+    }
     throw new Error(err.response?.data?.message || "Failed to fetch your tickets");
   }
 };

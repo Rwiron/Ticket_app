@@ -35,3 +35,47 @@ export const getAllUsers = async (token) => {
     return [];
   }
 };
+
+
+
+
+export const updateProfile = async (userData, token) => {
+  try {
+    const res = await axios.put(`${API_URL}/user/profile`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to update profile"
+    );
+  }
+};
+
+
+
+export const logoutUser = async () => {
+  try {
+    // Get token from local storage
+    const token = localStorage.getItem('token');
+    
+    // Set authorization header with token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    
+    const response = await axios.post(`${API_URL}/logout`, {}, config);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Logout failed");
+    } else {
+      throw new Error("Network error during logout");
+    }
+  }
+};

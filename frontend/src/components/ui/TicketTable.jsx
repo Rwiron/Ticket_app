@@ -85,6 +85,14 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger, onRowClick }) => {
       return;
     }
 
+    // Don't attempt to fetch tickets if no token is available
+    if (!token) {
+      setIsLoading(false);
+      setTickets([]);
+      setFilteredTickets([]);
+      return;
+    }
+
     // Otherwise fetch tickets from the API
     fetchTickets();
   }, [propTickets, refreshTrigger, token]);
@@ -96,13 +104,30 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger, onRowClick }) => {
 
   const fetchTickets = async () => {
     try {
+      // Check if token exists before making the API call
+      if (!token) {
+        setIsLoading(false);
+        setTickets([]);
+        setFilteredTickets([]);
+        return;
+      }
+
       setIsLoading(true);
       const fetchedTickets = await getMyTickets(token);
       setTickets(fetchedTickets);
       setFilteredTickets(fetchedTickets);
       setIsLoading(false);
     } catch (error) {
-      showError("Failed to load tickets");
+      // Handle authentication errors specifically
+      if (
+        error.message === "Unauthenticated." ||
+        error.response?.status === 401
+      ) {
+        setTickets([]);
+        setFilteredTickets([]);
+      } else {
+        showError("Failed to load tickets");
+      }
       console.error("Error fetching tickets:", error);
       setIsLoading(false);
     }
@@ -375,49 +400,82 @@ const TicketTable = ({ tickets: propTickets, refreshTrigger, onRowClick }) => {
     <div className="space-y-5">
       {/* Search and Filter Controls */}
       <div className="flex flex-col gap-4 bg-white p-4 rounded-xl shadow-sm">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3">
-          <div className="relative w-full lg:w-64">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <FaSearch className="text-gray-400" />
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+          <div className="flex items-center">
+            <FaTicketAlt className="text-primary mr-2" />
+            <h2 className="text-xl font-semibold">Your Tickets</h2>
+          </div>
+
+          {!token ? (
+            <div className="w-full bg-amber-100 border border-amber-300 text-amber-800 p-3 rounded-md mb-4">
+              <p className="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Please log in to view your tickets.
+              </p>
             </div>
-            <input
-              ref={searchInputRef}
-              type="text"
-              className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Search tickets..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          ) : (
+            <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+              {/* Filter toggle button */}
+              <Button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center justify-center px-4 py-2 text-sm ${
+                  showFilters
+                    ? "bg-primary text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <FaFilter className="mr-2" />
+                Filters {showFilters ? "▲" : "▼"}
+              </Button>
 
-          <div className="flex flex-wrap gap-2 self-end lg:self-auto">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg text-sm transition-colors"
-            >
-              <FaFilter className={showFilters ? "text-blue-500" : ""} />
-              <span>Filters</span>
-            </button>
+              {/* Search input */}
+              <div className="relative flex-grow">
+                <input
+                  type="text"
+                  placeholder="Search tickets..."
+                  className="border border-gray-300 rounded-lg p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  ref={searchInputRef}
+                />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              </div>
 
-            {canExport && (
-              <>
-                <button
-                  onClick={exportToPDF}
-                  className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm transition-colors"
-                >
-                  <FaFilePdf />
-                  <span className="hidden sm:inline">PDF</span>
-                </button>
-                <button
-                  onClick={exportToExcel}
-                  className="flex items-center space-x-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm transition-colors"
-                >
-                  <FaFileExcel />
-                  <span className="hidden sm:inline">Excel</span>
-                </button>
-              </>
-            )}
-          </div>
+              {/* Export buttons */}
+              {canExport && (
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={exportToPDF}
+                    className="bg-red-600 hover:bg-red-700 text-white flex items-center justify-center px-4 py-2"
+                  >
+                    <FaFilePdf className="mr-2" />
+                    PDF
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={exportToExcel}
+                    className="bg-green-600 hover:bg-green-700 text-white flex items-center justify-center px-4 py-2"
+                  >
+                    <FaFileExcel className="mr-2" />
+                    Excel
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Filter panel - collapsible */}

@@ -10,6 +10,9 @@ import NotFound from "./pages/errors/NotFound";
 import OtpVerification from "./pages/auth/OtpVerification";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Contact from "./pages/dashboard/Contact";
+import ProfilePage from "./pages/dashboard/ProfilePage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
+import HelpPage from "./pages/dashboard/HelpPage";
 import ResetingPass from "./pages/auth/ResetingPass";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ResetPasswordGuard from "./guards/ResetPasswordGuard";
@@ -38,6 +41,9 @@ const App = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/contact" element={<Contact />} />
+        <Route path="/dashboard/profile" element={<ProfilePage />} />
+        <Route path="/dashboard/settings" element={<SettingsPage />} />
+        <Route path="/dashboard/help" element={<HelpPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

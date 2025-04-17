@@ -15,25 +15,27 @@ import {
   FaComment,
   FaStar,
   FaHeadset,
+  FaUserCircle,
 } from "react-icons/fa";
+import { RiCodeSSlashLine } from "react-icons/ri";
 
 import { logo } from "../../assets/index";
 
 // Admin navigation links
 const adminNavLinks = [
-  { name: "Dashboard", path: "/dashboard", exact: true, icon: <FaHome /> },
-  { name: "Tickets", path: "/dashboard/tickets", icon: <FaTicketAlt /> },
-  { name: "Users", path: "/dashboard/users", icon: <FaUsers /> },
-  { name: "System", path: "/dashboard/system", icon: <FaServer /> },
-  { name: "Reports", path: "/dashboard/reports", icon: <FaChartBar /> },
-  { name: "Contact", path: "/dashboard/contact", icon: <FaHeadset /> },
+  { name: "Home", path: "/dashboard", exact: true, icon: <FaHome /> },
+  { name: "Profile", path: "/dashboard/profile", icon: <FaUserCircle /> },
   { name: "Settings", path: "/dashboard/settings", icon: <FaCog /> },
+  { name: "Help Center", path: "/dashboard/help", icon: <FaQuestionCircle /> },
 ];
 
 // Employee navigation links - Only showing Dashboard
 const employeeNavLinks = [
   { name: "Dashboard", path: "/dashboard", exact: true, icon: <FaHome /> },
   { name: "Contact", path: "/dashboard/contact", icon: <FaHeadset /> },
+  { name: "Profile", path: "/dashboard/profile", icon: <FaUserCircle /> },
+  { name: "Settings", path: "/dashboard/settings", icon: <FaCog /> },
+  { name: "Help Center", path: "/dashboard/help", icon: <FaQuestionCircle /> },
   // Comment: Other links removed as requested
 ];
 
@@ -104,6 +106,16 @@ const Sidebar = ({ closeSidebar }) => {
             </NavLink>
           ))}
         </nav>
+
+        {/* Version Display */}
+        <div className="p-4 border-t border-white/10">
+          <div className="flex items-center justify-center py-2 px-3 bg-white/5 rounded-lg backdrop-blur-sm transition-all hover:bg-white/10">
+            <RiCodeSSlashLine className="text-[#00b2ef] mr-2" />
+            <span className="text-xs font-medium bg-gradient-to-r from-[#00b2ef] to-[#2dd4bf] bg-clip-text text-transparent">
+              v1.0.0
+            </span>
+          </div>
+        </div>
       </aside>
     </>
   );
